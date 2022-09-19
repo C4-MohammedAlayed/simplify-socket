@@ -24,7 +24,7 @@ connection.query(query, data, (err, results) => {
       if (respons) {
         const paylod = {
           userId: results[0].userId,
-          userName: results[0].name,
+          userName: results[0].userName,
           role: results[0].roleId,
         };
 
@@ -36,7 +36,7 @@ connection.query(query, data, (err, results) => {
           success: true,
           message: "Valid login credentials",
           token,
-          userName: results[0].name,
+          userName: results[0].userName,
           role: results[0].roleId,
           userId:results[0].userId,
         });

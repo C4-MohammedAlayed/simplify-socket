@@ -10,6 +10,9 @@ const auth = (req, res, next) => {
 
 		const parsedToken = jwt.verify(token, process.env.SECRET);
 
+		console.log("token: "+ token);
+		console.log("req.token: "+ req.token);
+		console.log("parsedToken: "+ parsedToken);
 		req.token = parsedToken;
 
 		next();
@@ -18,4 +21,4 @@ const auth = (req, res, next) => {
 	}
 };
 
-module.exports = auth;
+module.exports = {auth};

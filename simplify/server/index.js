@@ -24,11 +24,12 @@ const server = app.listen(PORT, () => {
 const roleRouter = require(`./router/role`);
 const userRouter =require(`./router/user`);
 const lgonRouter =require(`./router/login`)
-
+const messageRouter = require(`./router/message`);
 
 app.use("/role",roleRouter);
 app.use('/user',userRouter);
-app.use('/login',lgonRouter)
+app.use('/login',lgonRouter);
+app.use('/message',messageRouter);
 
 //Soket Functions
 const io = socket(server, {

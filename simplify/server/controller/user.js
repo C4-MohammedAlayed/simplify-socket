@@ -3,12 +3,12 @@ const bcrypt = require("bcrypt");
 //function to create user
 
 const createUser = async (req, res) => {
-  const { name, password, email, gender, roleId } = req.body;
+  const { userName, password, email, gender, roleId } = req.body;
   const salt = 10;
   const hashPassword = await bcrypt.hash(password, salt);
 
-  const data = [name, hashPassword, email, gender, roleId];
-  const query = `INSERT INTO user (name,password,email,gender,roleId) VALUES (?,?,?,?,?)`;
+  const data = [userName, hashPassword, email, gender, roleId];
+  const query = `INSERT INTO user (userName,password,email,gender,roleId) VALUES (?,?,?,?,?)`;
   connection.query(query, data, (err, result) => {
     if (err) {
       return res.status(500).json({
