@@ -1,0 +1,26 @@
+
+<div class="main">
+
+    <form  class="mat-elevation-z8 p-3" [formGroup]="myForm" >
+        <mat-form-field appearance="fill">
+            <mat-label>userName</mat-label>
+            <input matInput  formControlName="userName" >
+          </mat-form-field>
+ <br>
+          <mat-form-field appearance="fill">
+            <mat-label>password</mat-label>
+            <input matInput formControlName="password">
+          </mat-form-field>
+          
+          <br>
+          <mat-form-field appearance="fill">
+            <mat-label>email</mat-label>
+            <input matInput formControlName="email">
+          </mat-form-field>
+          
+          <br>
+         <div class="text-center"> <button [disabled]="!myForm.valid" (click)="login()" mat-stroked-button color="warn">login</button></div> 
+    </form>
+
+
+</div>
