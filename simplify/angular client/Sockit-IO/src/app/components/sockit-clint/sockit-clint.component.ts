@@ -31,6 +31,9 @@ export class SockitClintComponent implements OnInit {
     this.getAllUsers()
     
     this.room = this.tokenStorge.getUserId();
+    this.userName=this.tokenStorge.getUserName()
+    console.log(this.userName , this.room );
+    
     
   }
 
@@ -45,16 +48,19 @@ getAllUsers(){
 }
 
   recieveMessage() {
-    this.socketioService.socket.on('connection', (data: any) => {
-      this.messageService.getAllMessages().subscribe((res) => {
-        console.log('res :' + res);
-      });
-    });
-    console.log('res :');
+    
+    
+  
   }
 
   sendMessage(){
     console.log(this.message);
+    console.log(this.selectUser[0]);
+    
+  }
+
+  join(){
+    this.socketioService.socket.emit("JOIN_ROOM", this.selectUser[0])
     console.log(this.selectUser[0]);
     
   }

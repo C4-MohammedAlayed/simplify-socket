@@ -36,7 +36,7 @@ login(){
   this.authService.login(userName,password,email,).subscribe({
     next:res=>{
     this.TokenStorge.saveToken(res.token)
-    this.TokenStorge.saveUser(res.userNmae)
+    this.TokenStorge.saveUser(res.userName)
     this.TokenStorge.saveUserID(res.userId)
     this.TokenStorge.setIsLoggedIn("true")
     console.log(res);
