@@ -8,7 +8,7 @@ const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-const loginUrl =environment.loginUrl
+const Url = environment.Url
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,6 @@ export class AuthService {
   constructor( private http:HttpClient) { }
 
   login(userName: string, password: string, email: string):Observable<any>{
-    return this.http.post(`${loginUrl}`,{userName,password,email}, httpOptions)
+    return this.http.post(`${Url+"login"}`,{userName,password,email}, httpOptions)
   }
 }

@@ -1,0 +1,38 @@
+<mat-toolbar color="primary">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+     <mat-icon>menu</mat-icon>
+   </button>
+   <span>Real Time</span>
+   <span class="example-spacer"></span>
+   <div style="position: relative;">
+   <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+ 
+    <!-- <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span> -->
+    <mat-icon (click)="show()" matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+   </button>
+   <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+    <mat-icon style="cursor: pointer;">share</mat-icon>
+  </button>
+  <!-- <div *ngIf="showNotifications" class="notificationsList">
+    <div *ngFor="let notification of notificationList">
+    <mat-card *ngIf="userName!==notification.sender" >
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>{{notification.sender}}</mat-card-title>
+        
+        <mat-card-subtitle >{{notification.message}}</mat-card-subtitle>
+       
+        <button color="warn" mat-mini-fab  aria-label="Example icon button with a home icon">
+          <mat-icon >done</mat-icon>
+        </button>
+    
+      </mat-card-header>
+    
+      </mat-card>
+      <mat-divider></mat-divider>
+    </div>
+      
+    
+  </div> -->
+  </div>
+  </mat-toolbar>

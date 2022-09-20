@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 const TOKEN_KEY = 'auth-token';
 const USER_KEY = 'auth-user';
-const IsLogged_KEY='auth-loggIn'
+const USERID_KEY = 'auth-userID';
+const IsLogged_KEY = 'auth-loggIn';
 
 @Injectable({
   providedIn: 'root',
@@ -25,21 +26,33 @@ export class TokenStorgeService {
     return window.sessionStorage.getItem(TOKEN_KEY);
   }
 
-  // save userName
-  public saveUser(user:any):void{
+  // save and get userName
+  public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY,JSON.stringify(user));
+    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
+  public getUserName(): string | null {
+    return window.sessionStorage.getItem(USER_KEY);
+  }
 
-//get and save IsLoggedIn
-  public setIsLoggedIn(state:string):void{
+  // save UserID
+  public saveUserID(userID: any): void {
+    window.sessionStorage.removeItem(USERID_KEY);
+    window.sessionStorage.setItem(USERID_KEY, JSON.stringify(userID));
+  }
+
+  public getUserId(): string | null {
+    return window.sessionStorage.getItem(USERID_KEY);
+  }
+
+  //get and save IsLoggedIn
+  public setIsLoggedIn(state: string): void {
     window.sessionStorage.removeItem(IsLogged_KEY);
-    window.sessionStorage.setItem(IsLogged_KEY,state)
+    window.sessionStorage.setItem(IsLogged_KEY, state);
   }
 
   public getIsLoggedIn(): string | null {
-    return window.sessionStorage.getItem(IsLogged_KEY)
+    return window.sessionStorage.getItem(IsLogged_KEY);
   }
-
 }

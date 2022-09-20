@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  loginUrl:"http://localhost:5000/login"
+  Url:"http://localhost:5000/",
+
+  SOCKET_ENDPOINT: 'http://localhost:5000'
 };
 
 /*

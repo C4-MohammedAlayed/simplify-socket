@@ -37,7 +37,10 @@ login(){
     next:res=>{
     this.TokenStorge.saveToken(res.token)
     this.TokenStorge.saveUser(res.userNmae)
+    this.TokenStorge.saveUserID(res.userId)
     this.TokenStorge.setIsLoggedIn("true")
+    console.log(res);
+    
     this.router.navigate(['/socket']);
     },error:err=>{
       console.log(err);

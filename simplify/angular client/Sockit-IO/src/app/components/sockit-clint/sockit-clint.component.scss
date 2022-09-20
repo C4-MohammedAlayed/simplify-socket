@@ -1,0 +1,36 @@
+.main {
+  display: flex;
+  justify-content: flex-end;
+}
+.chatBox {
+  height: 550px;
+
+}
+.userBox{
+   
+    height:550px ;
+}
+
+.messageContainer{
+    display: flex;
+   flex-direction: column;
+ 
+    height: 550px;
+}
+
+.messageBox{
+height: 480px;
+background-color: rgb(145, 125, 125);
+}
+
+.sendFeild{
+height: 70px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.mat-form-field{
+    width: 250px;
+}

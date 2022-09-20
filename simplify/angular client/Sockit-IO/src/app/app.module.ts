@@ -9,6 +9,9 @@ import { MaterialModule } from 'src/material/material/material.module';
 import { SockitClintComponent } from './components/sockit-clint/sockit-clint.component';
 import { LoginComponent } from './components/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
+import { NavComponent } from './components/nav/nav.component';
+import { SocketioService } from './Services/socket-io.service';
+
 
 
 @NgModule({
@@ -16,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
 
     SockitClintComponent,
-    LoginComponent
+    LoginComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +29,7 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [SocketioService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

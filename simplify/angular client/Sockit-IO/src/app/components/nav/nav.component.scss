@@ -1,0 +1,28 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+  
+  .example-header-image {
+    //background-image: url("../../../assets/IMG/pexels-designecologist-1328545.jpg");
+    background-size: cover;
+   
+    border-radius: 50%;
+  }
+  
+  .notificationsList{
+    width: 265px;
+      height: 400px;
+      background-color: black;
+      border-radius: 10px;
+      position: absolute;
+      right: 45px;
+      overflow-y: auto;
+  }
+  .mat-card{
+  height: 96px;
+  } 
+  ::ng-deep .mat-card-header-text{
+    width: 200px !important;
+  }
+  
+  
