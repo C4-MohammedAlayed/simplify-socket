@@ -27,7 +27,7 @@ export class SockitClintComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.recieveMessage();
+   
     this.getAllUsers()
     
     this.room = this.tokenStorge.getUserId();
@@ -47,10 +47,12 @@ getAllUsers(){
   })
 }
 
-  recieveMessage() {
-    
-    
-  
+  recieveMessageByID(id:any) {
+    this.messageService.getAllMessagesById(id).subscribe(res=>{
+      this.messageList=res.result
+      console.log(this.messageList);
+      
+    }) 
   }
 
   sendMessage(){
@@ -59,9 +61,10 @@ getAllUsers(){
     
   }
 
+  // when choose the user will get userid and recice all the message betrwwen them
   join(){
     this.socketioService.socket.emit("JOIN_ROOM", this.selectUser[0])
     console.log(this.selectUser[0]);
-    
+    this.recieveMessageByID(this.selectUser[0])
   }
 }

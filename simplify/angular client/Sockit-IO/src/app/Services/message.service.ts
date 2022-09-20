@@ -15,6 +15,12 @@ return this.http.get(`${this.Url+"message"}`).pipe(
 
   }
 
+  getAllMessagesById(id:string): Observable<any> {
+    return this.http.get(`${this.Url+"message/"}${id}`).pipe(
+      catchError(this.handleError) );
+    
+      }
+
 
   handleError(error:any) {
     let errorMessage = '';
