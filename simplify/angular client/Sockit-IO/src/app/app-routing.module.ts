@@ -5,7 +5,8 @@ import { SockitClintComponent } from './components/sockit-clint/sockit-clint.com
 
 const routes: Routes = [
   { path: 'socket', component: SockitClintComponent },
-  { path: 'login', component: LoginComponent }
+  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent }
 ];
 
 @NgModule({

@@ -30,9 +30,6 @@ export class LoginComponent implements OnInit {
 
 login(){
   let {userName,email,password} =this.myForm.value
-
-
-
   this.authService.login(userName,password,email,).subscribe({
     next:res=>{
     this.TokenStorge.saveToken(res.token)

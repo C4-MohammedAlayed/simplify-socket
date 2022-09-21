@@ -19,6 +19,7 @@ export class SockitClintComponent implements OnInit {
   room: any;
   joinState: boolean = false;
   selectUser:string =""
+  
   constructor(
     private socketioService: SocketioService,
     private messageService: MessageService,
@@ -56,8 +57,10 @@ getAllUsers(){
   }
 
   sendMessage(){
+    
     console.log(this.message);
     console.log(this.selectUser[0]);
+   // this.socketioService.sendMessage()
     
   }
 
