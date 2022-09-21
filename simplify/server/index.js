@@ -26,10 +26,14 @@ const userRouter =require(`./router/user`);
 const lgonRouter =require(`./router/login`)
 const messageRouter = require(`./router/message`);
 
+
+
 app.use("/role",roleRouter);
 app.use('/user',userRouter);
 app.use('/login',lgonRouter);
 app.use('/message',messageRouter);
+
+
 
 //Soket Functions
 const io = socket(server, {
@@ -50,7 +54,7 @@ io.on("connection", (socket) => {
 
   socket.on("SEND_MESSAGE", (data) => {
     // .to() is used to specify to which room i will send the response/request
-    socket.to(data.room).emit("RECIEVE_MESSAGE", data.content);
+    socket.to(data.room).broadcast.emit("RECIEVE_MESSAGE", data.content);
     console.log(data.content);
     console.log(data);
   });

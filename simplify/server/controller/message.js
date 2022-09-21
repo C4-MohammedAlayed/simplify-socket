@@ -1,14 +1,33 @@
 const connection = require(`../db/db`);
 
+const getAllMessages=(req,res)=>{
+
+    const query =`SELECT * FROM messages WHERE is_deleted=0`;
+    connection.query(query,(err,result)=>{
+        if (err) return res.status(500).json({
+            success:"false",
+            message:"server err"
+        })
+          return res.status(200).json({
+            success:"true",
+            message:"get all messages",
+            result:result
+          })  
+       
+    })
+}
+
+
 //function  to send massage
 
 const sendMessage = (req, res) => {
-  const massageSender = req.token.userName;
-  const messageReceive =req.params.id
-  const { messageContent } = req.body;
-  const data = [messageContent, messageReceive, massageSender];
-
-  const query = `INSERT INTO messages (messageContent,messageReceive,messageSender,sendingTime) VALUE (?,?,?,now())`;
+  const sender_id = req.token.userId;
+  const senderName =req.token.userName
+  const receiver_id =req.params.id
+  const { message } = req.body;
+  const data = [message, receiver_id, sender_id,senderName];
+console.log(data);
+  const query = `INSERT INTO messages (message,receiver_id,sender_id,senderName,sendingTime) VALUE (?,?,?,?,now())`;
   connection.query(query, data, (err, result) => {
     if (err)
       return res.status(500).json({
@@ -25,10 +44,10 @@ const sendMessage = (req, res) => {
 };
 
 const getMessageByUserId =(req,res)=>{
-   const userId = req.params.id
-    
-    const query =`SELECT * FROM messages INNER JOIN user ON messages.messageReceive=user.userId WHERE messageReceive=?`;
-    const data =[userId];
+   const sender_id = req.token.userId
+   const receiver_id =req.params.id
+    const query =`SELECT * FROM messages  WHERE  sender_id = ? AND receiver_id = ? OR receiver_id= ? AND sender_id=?`;
+    const data =[sender_id,receiver_id,sender_id,receiver_id];
     connection.query(query,data,(err,result)=>{
         if (err) return res.status(500).json({
             success: "false",
@@ -43,8 +62,9 @@ const getMessageByUserId =(req,res)=>{
     })
 
 }
-
+//INNER JOIN user ON messages.messageReceive=user.userId
 module.exports={
     sendMessage,
-    getMessageByUserId
+    getMessageByUserId,
+    getAllMessages
 }

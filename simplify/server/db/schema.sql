@@ -23,10 +23,12 @@ CREATE TABLE user(
 
 CREATE TABLE messages(
     messageId INT AUTO_INCREMENT Not Null,
-    messageContent VARCHAR(255),
-    messageSender VARCHAR(255),
-    messageReceive INT,
-    FOREIGN KEY (messageReceive) REFERENCES user(userId),
+    senderName VARCHAR(255),
+    sender_id INT,
+    FOREIGN KEY (sender_id) REFERENCES user(userId),
+    receiver_id INT,
+    FOREIGN KEY (receiver_id) REFERENCES user(userId),
+    message VARCHAR(500),
     sendingTime DATETIME,
     is_deleted TINYINT DEFAULT 0,
     PRIMARY KEY(messageId)
