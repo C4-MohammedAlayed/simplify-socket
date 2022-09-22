@@ -29,7 +29,7 @@ export class TokenStorgeService {
   // save and get userName
   public saveUser(user: any): void {
     window.sessionStorage.removeItem(USER_KEY);
-    window.sessionStorage.setItem(USER_KEY, JSON.stringify(user));
+    window.sessionStorage.setItem(USER_KEY, user);
   }
 
   public getUserName(): string | null {

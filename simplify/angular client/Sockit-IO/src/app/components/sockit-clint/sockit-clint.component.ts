@@ -22,6 +22,9 @@ export class SockitClintComponent implements OnInit {
   selectUser:string =""
   userId:string=""
   form!:FormGroup
+  sound: HTMLAudioElement = new Audio(
+    '../../../assets/sound/messenger.mp3'
+  );
   constructor(
     private socketioService: SocketioService,
     private messageService: MessageService,
@@ -35,10 +38,12 @@ export class SockitClintComponent implements OnInit {
     
     this.userId = this.tokenStorge.getUserId();
     this.userName=this.tokenStorge.getUserName()
-    console.log(this.userName , this.userId  );
+    console.log(this.userName , this.userId );
 
     this.socketioService.socket.on("RECIEVE_MESSAGE", (data:any) => {
-      this.messageList.push( data)}) 
+      this.sound.play();
+      this.messageList.push(data)}) 
+      
     
     
   }
@@ -50,11 +55,8 @@ export class SockitClintComponent implements OnInit {
   }
 getAllUsers(){
   this.userService.getAllUsers().subscribe(res=>{
-   this.usersList= res.results
-
-   console.log(this.usersList);
-   
-    
+    // to remove the user Who is logged in  from userBox chat
+    this.usersList= res.results.filter((res: { userName: string | any[]; })=>res.userName != this.userName)
   })
 }
 
@@ -87,9 +89,9 @@ getAllUsers(){
     this.socketioService.sendMessage(messageContent);
     this.messageList.push(messageContent.content)
     this.messageService.sendMessage(this.selectUser[0],this.form.value).subscribe(res=>{
-      console.log("res :"+ this.form.value,res);
-      
+       
     })
+    this.form.reset();
     
   }
 

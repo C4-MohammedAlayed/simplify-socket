@@ -16,11 +16,20 @@
    flex-direction: column;
  
     height: 550px;
+   
 }
 
 .messageBox{
 height: 480px;
-background-color: rgb(145, 125, 125);
+padding: 10px;
+    background-color: #161A1A;
+    background-image: url(../../../assets/img/63eab4a9cce6c61ec0dea1be4fbdcd0d2295e7fbr1-640-1003v2_hq.jpg);
+    background-size: cover;
+    background-position: center,center;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    border-radius: 0.5rem;
 }
 
 .sendFeild{
@@ -33,4 +42,35 @@ align-items: center;
 
 .mat-form-field{
     width: 250px;
+    
+}
+
+.receiver,.sender{
+    display: flex;
+    flex-direction: column;
+}
+
+.receiver div{
+    margin: 10px 0;
+}
+.receiver div span {
+background-color: #5E5E5E;
+color: #fafafa;
+padding: 10px;
+border-radius:1rem;
+
+}
+
+
+.sender div{
+    display: flex;
+    justify-content: flex-end;
+    margin: 3px 0px;
+}
+.sender div span{
+    background-color: #3B82F6;
+    color: #fafafa;
+    padding: 10px;
+    border-radius:1rem;
+   
 }

@@ -18,9 +18,14 @@
 
       <div class="messageContainer col-8">
         <!-- message -->
-        <div class="messageBox">
+        <div #scrollMe class="messageBox">
         <div *ngFor="let message of messageList">
-            {{message.senderName}}:{{message.message}}
+            <div  [ngClass]="{ receiver:message.sender!==userName,sender:message.senderName==userName}" class="messageSend">
+               
+                <div  ><span>{{message.message}}</span></div>
+                
+            </div>
+           
         </div>
         </div>
 
@@ -29,7 +34,7 @@
             <form [formGroup]="form">
           <mat-form-field appearance="standard" class="col-10">
             <mat-label>message</mat-label>
-            <input matInput formControlName="message" />
+            <input (keydown.enter)="sendMessage()" matInput formControlName="message" />
           </mat-form-field>
           <mat-icon class="mx-2" (click)="sendMessage()">send</mat-icon>
         </form>
