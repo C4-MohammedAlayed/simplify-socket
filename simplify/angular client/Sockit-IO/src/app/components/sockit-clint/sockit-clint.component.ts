@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MessageService } from 'src/app/Services/message.service';
 import { SocketioService } from 'src/app/Services/socket-io.service';
@@ -11,7 +11,7 @@ import { UsersService } from 'src/app/Services/users.service';
   styleUrls: ['./sockit-clint.component.scss'],
 })
 export class SockitClintComponent implements OnInit {
-  usersList :any=[]
+  usersList: any = [];
   messageText: any;
   userName: any;
   password: any;
@@ -19,12 +19,10 @@ export class SockitClintComponent implements OnInit {
   message: any;
   room: any;
   joinState: boolean = false;
-  selectUser:string =""
-  userId:string=""
-  form!:FormGroup
-  sound: HTMLAudioElement = new Audio(
-    '../../../assets/sound/messenger.mp3'
-  );
+  selectUser: string = '';
+  userId: string = '';
+  form!: FormGroup;
+  sound: HTMLAudioElement = new Audio('../../../assets/sound/messenger.mp3');
   constructor(
     private socketioService: SocketioService,
     private messageService: MessageService,
@@ -32,74 +30,87 @@ export class SockitClintComponent implements OnInit {
     private userService: UsersService
   ) {}
 
+  @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
   ngOnInit(): void {
-   this.initi();
+    this.initi();
     this.getAllUsers();
-    
+    this.scrollToBottom();
     this.userId = this.tokenStorge.getUserId();
-    this.userName=this.tokenStorge.getUserName()
-    console.log(this.userName , this.userId );
+    this.userName = this.tokenStorge.getUserName();
+    console.log(this.userName, this.userId);
 
-    this.socketioService.socket.on("RECIEVE_MESSAGE", (data:any) => {
+    this.socketioService.socket.on('RECIEVE_MESSAGE', (data: any) => {
       this.sound.play();
-      this.messageList.push(data)}) 
-      
-    
-    
+      this.messageList.push(data);
+    });
   }
 
-  initi(){
-    this.form =new FormGroup({
-      message:new FormControl()
-    })
-  }
-getAllUsers(){
-  this.userService.getAllUsers().subscribe(res=>{
-    // to remove the user Who is logged in  from userBox chat
-    this.usersList= res.results.filter((res: { userName: string | any[]; })=>res.userName != this.userName)
-  })
-}
+  ngAfterViewChecked() {       
+     
+    this.scrollToBottom();        
+} 
 
-  recieveMessageByID(id:any) {
-    this.messageService.getAllMessagesById(id).subscribe(res=>{
-      this.messageList=res.result
+
+  initi() {
+    this.form = new FormGroup({
+      message: new FormControl(),
+    });
+  }
+  getAllUsers() {
+    this.userService.getAllUsers().subscribe((res) => {
+      // to remove the user Who is logged in  from userBox chat
+      this.usersList = res.results.filter(
+        (res: { userName: string | any[] }) => res.userName != this.userName
+      );
+    });
+  }
+
+  recieveMessageByID(id: any) {
+    this.messageService.getAllMessagesById(id).subscribe((res) => {
+      this.messageList = res.result;
       console.log(this.messageList);
-      
-    }) 
+    });
   }
 
- findRoom(){
-  let temp:any=[]
-  temp.push(this.userId,this.selectUser[0])
-  this.room=temp.sort().join("")
-}
+  findRoom() {
+    let temp: any = [];
+    temp.push(this.userId, this.selectUser[0]);
+    this.room = temp.sort().join('');
+  }
 
-  sendMessage(){
-    console.log("message:"+this.form.value.message);
-    
+  sendMessage() {
+    console.log('message:' + this.form.value.message);
+
     const messageContent = {
-      room:this.room,
+      room: this.room,
       content: {
         senderName: this.userName,
         message: this.form.value.message,
       },
     };
     //console.log(this.message);
-    
+
     this.socketioService.sendMessage(messageContent);
-    this.messageList.push(messageContent.content)
-    this.messageService.sendMessage(this.selectUser[0],this.form.value).subscribe(res=>{
-       
-    })
+    this.messageList.push(messageContent.content);
+    this.messageService
+      .sendMessage(this.selectUser[0], this.form.value)
+      .subscribe((res) => {});
     this.form.reset();
-    
   }
 
   // when choose the user will get userid and recice all the message betrwwen them
-  join(){
-    this.findRoom()
-    this.socketioService.socket.emit("JOIN_ROOM", this.room)
+  join() {
+    this.findRoom();
+    this.socketioService.socket.emit('JOIN_ROOM', this.room);
     console.log(this.room);
-    this.recieveMessageByID(this.selectUser[0])
+    this.recieveMessageByID(this.selectUser[0]);
+  }
+
+  // this fucntion to scrollDown auto after get all messages or send a new message  
+  scrollToBottom(): void {
+    try {
+      this.myScrollContainer.nativeElement.scrollTop =
+        this.myScrollContainer.nativeElement.scrollHeight;
+    } catch (err) {}
   }
 }

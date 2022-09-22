@@ -30,13 +30,13 @@
         </div>
 
         <!-- send -->
-        <div class="sendFeild">
+        <div class="sendFeild"  class="col-12">
             <form [formGroup]="form">
-          <mat-form-field appearance="standard" class="col-10">
+          <mat-form-field appearance="standard" class="col-lg-10  col-md-6 col-sm-4">
             <mat-label>message</mat-label>
-            <input (keydown.enter)="sendMessage()" matInput formControlName="message" />
+            <input  (keydown.enter)="sendMessage()" matInput formControlName="message" />
           </mat-form-field>
-          <mat-icon class="mx-2" (click)="sendMessage()">send</mat-icon>
+          <mat-icon class="mx-2 col-2" (click)="sendMessage()">send</mat-icon>
         </form>
         </div>
       </div>
