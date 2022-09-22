@@ -13,14 +13,16 @@ export class MessageService {
   constructor(private http:HttpClient,private tokenStorgeService:TokenStorgeService) { }
  
   
-  getAllMessages(): Observable<any> {
-return this.http.get(`${this.Url+"message"}`).pipe(
-  catchError(this.handleError) );
+//   getAllMessages(): Observable<any> {
+// return this.http.get(`${this.Url+"message"}`).pipe(
+//   catchError(this.handleError) );
 
-  }
+//   }
 
   getAllMessagesById(id:string): Observable<any> {
-    return this.http.get(`${this.Url+"message/"}${id}`).pipe(
+    let token =this.tokenStorgeService.getToken()
+     let header=new HttpHeaders().set("Authorization","bearer "+token)
+    return this.http.get(`${this.Url+"message/"}${id}`,{headers:header}).pipe(
       catchError(this.handleError) );
     
       }
@@ -28,8 +30,10 @@ return this.http.get(`${this.Url+"message"}`).pipe(
       
      sendMessage(receiver_id:string,message:string){
       let token =this.tokenStorgeService.getToken()
-     let header=new HttpHeaders().set('Authorization','Bearer '+token)
-     return this.http.post(`${this.Url+"message/"}${receiver_id}`,message,{headers:header})
+     let header=new HttpHeaders().set("Authorization","bearer "+token)
+     console.log("work?");
+     
+     return this.http.post(`${this.Url+"message/"}${receiver_id}`,message,{headers:header}).pipe(catchError(this.handleError) )
      } 
 
   handleError(error:any) {

@@ -42,7 +42,7 @@ export class TokenStorgeService {
     window.sessionStorage.setItem(USERID_KEY, JSON.stringify(userID));
   }
 
-  public getUserId(): string | null {
+  public getUserId(): any {
     return window.sessionStorage.getItem(USERID_KEY);
   }
 
