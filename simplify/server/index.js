@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
 
   socket.on("SEND_MESSAGE", (data) => {
     // .to() is used to specify to which room i will send the response/request
-    socket.to(data.room).broadcast.emit("RECIEVE_MESSAGE", data.content);
+    socket.broadcast.to(data.room).emit("RECIEVE_MESSAGE", data.content);
     console.log(data.content);
     console.log(data);
   });
