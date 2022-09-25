@@ -19,7 +19,7 @@ export class SockitClintComponent implements OnInit {
   message: any;
   room: any;
   joinState: boolean = false;
-  selectUser: string = '';
+  selectUser: any = '';
   userId: string = '';
   form!: FormGroup;
   sound: HTMLAudioElement = new Audio('../../../assets/sound/messenger.mp3');
@@ -73,8 +73,10 @@ export class SockitClintComponent implements OnInit {
   }
 
   findRoom() {
+    console.log( this.selectUser[0]?.userName);
+    
     let temp: any = [];
-    temp.push(this.userId, this.selectUser[0]);
+    temp.push(this.userId, this.selectUser[0].userId);
     this.room = temp.sort().join('');
   }
 
@@ -93,7 +95,7 @@ export class SockitClintComponent implements OnInit {
     this.socketioService.sendMessage(messageContent);
     this.messageList.push(messageContent.content);
     this.messageService
-      .sendMessage(this.selectUser[0], this.form.value)
+      .sendMessage(this.selectUser[0].userId, this.form.value)
       .subscribe((res) => {});
     this.form.reset();
   }
@@ -103,7 +105,7 @@ export class SockitClintComponent implements OnInit {
     this.findRoom();
     this.socketioService.socket.emit('JOIN_ROOM', this.room);
     console.log(this.room);
-    this.recieveMessageByID(this.selectUser[0]);
+    this.recieveMessageByID(this.selectUser[0].userId);
   }
 
   // this fucntion to scrollDown auto after get all messages or send a new message  
@@ -112,5 +114,9 @@ export class SockitClintComponent implements OnInit {
       this.myScrollContainer.nativeElement.scrollTop =
         this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) {}
+  }
+  log(){
+console.log(this.selectUser[0].userId);
+
   }
 }
