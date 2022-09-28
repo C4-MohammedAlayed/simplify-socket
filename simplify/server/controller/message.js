@@ -57,9 +57,14 @@ const getMessageByUserId =(req,res)=>{
     })
 
 }
+
+
+
+
+
 //INNER JOIN user ON messages.messageReceive=user.userId
 module.exports={
     sendMessage,
     getMessageByUserId,
-    getAllMessages
+    getAllMessages,
 }

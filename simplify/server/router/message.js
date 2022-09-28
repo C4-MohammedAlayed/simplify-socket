@@ -8,4 +8,5 @@ messageRouter.post("/:id",auth,sendMessage);
 messageRouter.get("/:id",auth,getMessageByUserId);
 messageRouter.get("/",getAllMessages);
 
+
 module.exports =messageRouter;

@@ -25,6 +25,7 @@ const roleRouter = require(`./router/role`);
 const userRouter =require(`./router/user`);
 const lgonRouter =require(`./router/login`)
 const messageRouter = require(`./router/message`);
+const notificationRouter = require(`./router/notification`);
 
 
 
@@ -32,6 +33,7 @@ app.use("/role",roleRouter);
 app.use('/user',userRouter);
 app.use('/login',lgonRouter);
 app.use('/message',messageRouter);
+app.use('/notification',notificationRouter);
 
 
 
@@ -46,11 +48,18 @@ const io = socket(server, {
 io.on("connection", (socket) => {
   console.log(`${socket.id} is connected`);
 
-  socket.on("JOIN_ROOM", (data) => {
-    console.log(data);
+  socket.on("JOIN_ROOM", (room) => {
+    console.log("Room: ",room);
     // .join() is used to seperate the session into private rooms depending on the data
-    socket.join(data);
+    socket.join(room);
   });
+
+ 
+    socket.on("LEAVE", (room)=>{
+      socket.leave(room);
+    console.log("leacve: ",room);
+    })
+ 
 
   socket.on("SEND_MESSAGE", (data) => {
     // .to() is used to specify to which room i will send the response/request

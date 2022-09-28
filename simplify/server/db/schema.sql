@@ -30,7 +30,16 @@ CREATE TABLE messages(
     FOREIGN KEY (receiver_id) REFERENCES user(userId),
     message VARCHAR(500),
     sendingTime DATETIME,
+    is_Read TINYINT DEFAULT 0,
     is_deleted TINYINT DEFAULT 0,
     PRIMARY KEY(messageId)
 
+);
+CREATE TABLE notifications(
+ notificationId INT AUTO_INCREMENT Not NULL,
+ receiver_id INT,
+ FOREIGN KEY (receiver_id) REFERENCES user(userId),
+ sender_id INT,
+ FOREIGN KEY (sender_id) REFERENCES user(userId),
+ PRIMARY KEY(notificationId)
 );
