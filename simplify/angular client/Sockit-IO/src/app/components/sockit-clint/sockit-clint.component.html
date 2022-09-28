@@ -1,105 +1,86 @@
-<div class="container-fluid main mt-2 ">
+<div *ngIf="token" class="container-fluid main mt-2">
+  <!--............-->
 
+  <div class="row">
+   
+    <div class="messageContainer col-12">
+      <div class="userr mat-elevation-z8">
+        <mat-card class="example-card">
+          <mat-card-header>
+            <mat-card-title class="title">
+              <mat-icon class="menuIcon">menu</mat-icon>
+              Contacts
+            </mat-card-title>
+          </mat-card-header>
+          <mat-divider></mat-divider>
 
-
-
-
-
-
-    <!--............-->
-
-    <div class="row ">
-      <!-- <div class="userBox col-3"> -->
-        <!-- <mat-selection-list [(ngModel)]="selectUser" [multiple]="false">
-          <mat-list-option
-          
-            (click)="join()"
-           
-            *ngFor="let user of usersList"
-            [value]="user.userId"
-          >
-          
-            <span *ngIf="user.userId != room">{{ user.userName }}</span>
-          </mat-list-option>
-        </mat-selection-list> -->
-
-  
-
-      <!-- </div> -->
-
-      <div class="messageContainer col-12 ">
-      <div class="userr mat-elevation-z8">       
-    <mat-card class="example-card">
-        <mat-card-header >
-        
-          <mat-card-title class="title">
-            <mat-icon class="menuIcon" >menu</mat-icon>
-            Contacts
-          </mat-card-title>
-        
-        </mat-card-header>
-        <mat-divider></mat-divider>
-      
-        <mat-selection-list   [(ngModel)]="selectUser" [multiple]="false">
-           
-            <mat-list-option   (click)="join()"
-           
-            *ngFor="let user of usersList"
-            [value]="user">
- <mat-card-header >
-                <div mat-card-avatar class="example-header-image"></div>
+          <mat-selection-list [(ngModel)]="selectUser" [multiple]="false">
+            <mat-list-option
+              (click)="join()"
+              *ngFor="let user of usersList"
+              [value]="user"
+            >
+              <mat-card-header>
+                
+                <div mat-card-avatar class="example-header-image">
+                  <!-- <mat-icon  [matBadge]="getNotification(user.userId)" matBadgeColor="warn"></mat-icon> -->
+                </div>
                 <mat-card-title>{{ user.userName }}</mat-card-title>
                 <mat-card-subtitle>Etech</mat-card-subtitle>
               </mat-card-header>
-            </mat-list-option>
-     
-        </mat-selection-list>
-  
              
-              
-              
-              
-   
-       
-      </mat-card>
-    </div> 
-        <!-- message -->
-        <div class="messagebody col-3 mat-elevation-z8">
-            <div class="messageHeder">
-                <mat-card-header class="p-2">
-                    <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title>{{selectUser[0]?.userName}}</mat-card-title>
-                    <mat-card-subtitle>Etech</mat-card-subtitle>
-                  </mat-card-header>
-                 
-            </div>
-            
-        <div #scrollMe class="messageBox ">
-        <div *ngFor="let message of messageList">
-            <div  [ngClass]="{ receiver:message.sender!==userName,sender:message.senderName==userName}" class="messageSend">
-               
-                <div  ><span>{{message.message}}</span></div>
-                
-            </div>
-           
-        </div>
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-card>
+      </div>
+      <!-- message -->
+      <div class="messagebody col-3 mat-elevation-z8">
+        <div class="messageHeder">
+          <mat-card-header class="p-2">
+            <div mat-card-avatar class="example-header-image"></div>
+            <mat-card-title>{{ selectUser[0]?.userName }}</mat-card-title>
+            <mat-card-subtitle>Etech</mat-card-subtitle>
+          </mat-card-header>
         </div>
 
-         <!-- send -->
-         <div class="sendFeild"  class="col-12 p-3">
-            
-            <form class="form" [formGroup]="form">
-          <!-- <mat-form-field appearance="standard" class=""> -->
+        <div #scrollMe class="messageBox">
+          <div *ngFor="let message of messageList">
+            <div
+              [ngClass]="{
+                receiver: message.sender !== userName,
+                sender: message.senderName == userName
+              }"
+              class="messageSend"
+            >
+              <div>
+                <span>{{ message.message }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- send -->
+        <div class="sendFeild" class="col-12 p-3">
+          <form class="form" [formGroup]="form">
+            <!-- <mat-form-field appearance="standard" class=""> -->
             <!-- <mat-label>message</mat-label> -->
-            <input class="formContol col-lg-10  col-md-6 col-sm-4 p-2"  (keydown.enter)="sendMessage()" aria-describedby="inputGroup-sizing-default" formControlName="message" placeholder="Write a message..." />
-          <!-- </mat-form-field> -->
-          <mat-icon class=" col-2 iconSend" (click)="sendMessage()">send</mat-icon>
-        </form>
+            <input
+              class="formContol col-lg-10 col-md-6 col-sm-4 p-2"
+              (keydown.enter)="sendMessage()"
+              aria-describedby="inputGroup-sizing-default"
+              formControlName="message"
+              placeholder="Write a message..."
+            />
+            <!-- </mat-form-field> -->
+            <mat-icon class="col-2 iconSend" (click)="sendMessage()"
+              >send</mat-icon
+            >
+          </form>
         </div>
-    </div>
-
-       
       </div>
     </div>
- 
+  </div>
+</div>
+<div id="authorization" *ngIf="!token">
+
 </div>

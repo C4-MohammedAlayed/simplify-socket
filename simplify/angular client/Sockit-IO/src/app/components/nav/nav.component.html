@@ -3,12 +3,14 @@
      <mat-icon>menu</mat-icon>
    </button>
    <span>Real Time</span>
+   
    <span class="example-spacer"></span>
+   <span>{{userName}}</span>
    <div style="position: relative;">
    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
  
     <!-- <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span> -->
-    <mat-icon (click)="show()" matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+    <mat-icon (click)="show()" [matBadge]="badgeCount" matBadgeColor="warn">notifications</mat-icon>
    </button>
    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
     <mat-icon style="cursor: pointer;">share</mat-icon>

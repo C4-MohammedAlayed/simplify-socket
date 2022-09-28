@@ -25,9 +25,12 @@ export class SocketioService {
   }
   
   join(room:any){
+
     this.socket.emit("JOIN_ROOM", room);
   }
-
+leave(room:any){
+  this.socket.emit("LEAVE", room)
+}
   ReciveMessage(data:any){
     this.socket.on("RECIEVE_MESSAGE", data)
   }

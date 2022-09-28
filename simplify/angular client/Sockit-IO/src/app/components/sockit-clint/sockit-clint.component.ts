@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MessageService } from 'src/app/Services/message.service';
+import { NotificationService } from 'src/app/Services/notification.service';
 import { SocketioService } from 'src/app/Services/socket-io.service';
 import { TokenStorgeService } from 'src/app/Services/token-storge.service';
 import { UsersService } from 'src/app/Services/users.service';
@@ -23,16 +24,21 @@ export class SockitClintComponent implements OnInit {
   userId: string = '';
   form!: FormGroup;
   sound: HTMLAudioElement = new Audio('../../../assets/sound/messenger.mp3');
+  token!:string|null;
+notification:any=[];
+
   constructor(
     private socketioService: SocketioService,
     private messageService: MessageService,
     private tokenStorge: TokenStorgeService,
-    private userService: UsersService
+    private userService: UsersService,
+    private notificationService:NotificationService
   ) {}
 
   @ViewChild('scrollMe') private myScrollContainer!: ElementRef;
   ngOnInit(): void {
     this.initi();
+this.token=this.tokenStorge.getToken();
     this.getAllUsers();
     this.scrollToBottom();
     this.userId = this.tokenStorge.getUserId();
@@ -40,16 +46,20 @@ export class SockitClintComponent implements OnInit {
     console.log(this.userName, this.userId);
 
     this.socketioService.socket.on('RECIEVE_MESSAGE', (data: any) => {
+    
+      
       this.sound.play();
       this.messageList.push(data);
+      this.notificationService.passNotifi(data);
     });
+    // this.getNotification(this.userId)
+   
   }
 
-  ngAfterViewChecked() {       
-     
-    this.scrollToBottom();        
-} 
 
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
 
   initi() {
     this.form = new FormGroup({
@@ -73,11 +83,12 @@ export class SockitClintComponent implements OnInit {
   }
 
   findRoom() {
-    console.log( this.selectUser[0]?.userName);
-    
+    console.log(this.selectUser[0]?.userName);
+
     let temp: any = [];
     temp.push(this.userId, this.selectUser[0].userId);
     this.room = temp.sort().join('');
+    
   }
 
   sendMessage() {
@@ -96,27 +107,54 @@ export class SockitClintComponent implements OnInit {
     this.messageList.push(messageContent.content);
     this.messageService
       .sendMessage(this.selectUser[0].userId, this.form.value)
-      .subscribe((res) => {});
+      .subscribe((res) => {
+
+        this.sendNotification(this.selectUser[0].userId);
+      });
     this.form.reset();
   }
 
   // when choose the user will get userid and recice all the message betrwwen them
   join() {
+  //  this.socketioService.leave(this.room)
     this.findRoom();
     this.socketioService.socket.emit('JOIN_ROOM', this.room);
-    console.log(this.room);
+    
     this.recieveMessageByID(this.selectUser[0].userId);
   }
 
-  // this fucntion to scrollDown auto after get all messages or send a new message  
+  // this fucntion to scrollDown auto after get all messages or send a new message
   scrollToBottom(): void {
     try {
       this.myScrollContainer.nativeElement.scrollTop =
         this.myScrollContainer.nativeElement.scrollHeight;
     } catch (err) {}
   }
-  log(){
-console.log(this.selectUser[0].userId);
 
+  sendNotification(receiver_Id:string){
+    this.notificationService.sendNotification(receiver_Id).subscribe(res=>{
+     
+    })
   }
+//   getNotification(sender_Id:any){
+//     this.notificationService.getNotifications(sender_Id).subscribe(res=>{
+// this.notification=res.results
+// console.log(this.notification);
+//     })
+//    return this.notification.length
+    
+//   }
+
+// userNotfication(){
+//   console.log(this.notification);
+  
+//   let userNotfication=[]
+//   userNotfication=this.notification.filter((notification: any)=>notification.sender_id!==this.userId)
+//   console.log(userNotfication);
+  
+//   return userNotfication.length
+// }
+ngOnDestroy() {
+  this.notificationService.notification.unsubscribe();
+}
 }
