@@ -47,7 +47,7 @@ const io = socket(server, {
 
 io.on("connection", (socket) => {
   console.log(`${socket.id} is connected`);
-
+  socket.broadcast.emit('test');
   socket.on("JOIN_ROOM", (room) => {
     console.log("Room: ",room);
     // .join() is used to seperate the session into private rooms depending on the data
@@ -66,6 +66,8 @@ io.on("connection", (socket) => {
     socket.broadcast.to(data.room).emit("RECIEVE_MESSAGE", data.content);
     console.log(data.content);
     console.log(data);
+    socket.broadcast.emit('test',(data.recieve_id));
+    
   });
 
   socket.on("disconnect", () => {

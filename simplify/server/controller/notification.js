@@ -1,11 +1,11 @@
 const connection = require(`../db/db`);
 
 const createNotification = (req, res) => {
-  console.log("hi");
+ 
   const receiver_Id = req.params.id;
   const sender_Id = req.token.userId;
   const data = [receiver_Id, sender_Id];
-  console.log(data);
+
   const query = `INSERT INTO notifications (receiver_Id,sender_Id) VALUES (?,?)`;
   connection.query(query, data, (err, result) => {
     if (err) {
