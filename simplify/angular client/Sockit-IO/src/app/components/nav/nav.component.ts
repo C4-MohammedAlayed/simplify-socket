@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { filter, take, takeLast, takeUntil, takeWhile, tap } from 'rxjs';
 import { NotificationService } from 'src/app/Services/notification.service';
 import { SocketioService } from 'src/app/Services/socket-io.service';
 import { TokenStorgeService } from 'src/app/Services/token-storge.service';
@@ -12,9 +13,10 @@ export class NavComponent implements OnInit {
   notificationList: any = [];
   badgeCount: any = 0;
   userName: string | null = '';
-  // sound: HTMLAudioElement = new Audio(
-  //   '../../../assets/Whatsapp Tone - iphone.mp3'
-  // );
+  userId: any = '';
+  soundNotfif: HTMLAudioElement = new Audio(
+    '../../../assets/sound/so-proud-notification.mp3'
+  );
   constructor(
     private notificationService: NotificationService,
     private socketioService: SocketioService,
@@ -26,27 +28,48 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     this.getNotifications();
     this.userName = this.tokenStorage.getUserName();
-    this.socketioService.socket.on('RECIEVE_MESSAGE', (data: any) => {
-      // this.sound.play();
+    this.userId = this.tokenStorage.getUserId();
+    this.socketioService.socket.on('test', (data: any) => {
+     
       
       
-      this.notificationList.push(data)
+      this.comming()
       
       
       this.badgeCount=this.notificationList.length
     });
-    
+    console.log("teeeeeest rom nav");
   }
+  
+
   getNotifications() {
     this.notificationService.getNotifications().subscribe((res) => {
       this.notificationList = res.results;
+     
       this.badgeCount=this.notificationList.length
+     
     });
    
-    
-    
   }
+   
+  comming(){
 
+      this.notificationService.notification.subscribe(receiver_id=>{
+       
+        console.log(receiver_id , this.userId);
+        
+        if (receiver_id == this.userId) {
+          this.getNotifications()
+
+       this.soundNotfif.play();
+       
+     
+        }
+        
+        
+       
+      })
+  }
   show() {
     console.log(this.notificationList);
 

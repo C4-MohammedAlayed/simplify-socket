@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import {  BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import {  BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
 import { TokenStorgeService } from './token-storge.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { TokenStorgeService } from './token-storge.service';
 export class NotificationService {
   Url = environment.Url;
   constructor(private http:HttpClient,private tokenStorgeService:TokenStorgeService) { }
-  notification=new BehaviorSubject<Array<string>>([])
+  notification=new Subject()
 
   getNotifications(): Observable<any> {
     let token =this.tokenStorgeService.getToken()
@@ -42,6 +42,8 @@ export class NotificationService {
     });
   }
   passNotifi(data:any){
+   
     this.notification.next(data)
+   
   }
 }

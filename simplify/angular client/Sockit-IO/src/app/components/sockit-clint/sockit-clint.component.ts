@@ -23,7 +23,7 @@ export class SockitClintComponent implements OnInit {
   selectUser: any = '';
   userId: string = '';
   form!: FormGroup;
-  sound: HTMLAudioElement = new Audio('../../../assets/sound/messenger.mp3');
+  sound: HTMLAudioElement = new Audio('../../');
   token!:string|null;
 notification:any=[];
 
@@ -43,17 +43,24 @@ this.token=this.tokenStorge.getToken();
     this.scrollToBottom();
     this.userId = this.tokenStorge.getUserId();
     this.userName = this.tokenStorge.getUserName();
-    console.log(this.userName, this.userId);
+   
 
     this.socketioService.socket.on('RECIEVE_MESSAGE', (data: any) => {
     
       
       this.sound.play();
       this.messageList.push(data);
-      this.notificationService.passNotifi(data);
+      // this.notificationService.passNotifi(data,play);
     });
     // this.getNotification(this.userId)
    
+    this.socketioService.socket.on("test",(receiver_id:any)=>{
+      
+      console.log("from sendmessge :",receiver_id);
+      
+        this.notificationService.passNotifi(receiver_id)
+        
+    })
   }
 
 
@@ -83,6 +90,7 @@ this.token=this.tokenStorge.getToken();
   }
 
   findRoom() {
+    this.socketioService.leave(this.room)
     console.log(this.selectUser[0]?.userName);
 
     let temp: any = [];
@@ -95,7 +103,8 @@ this.token=this.tokenStorge.getToken();
     console.log('message:' + this.form.value.message);
 
     const messageContent = {
-      room: this.room,
+       room: this.room,
+      recieve_id:this.selectUser[0].userId,
       content: {
         senderName: this.userName,
         message: this.form.value.message,
